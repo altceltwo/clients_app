@@ -67,13 +67,13 @@ const styles = StyleSheet.create({
         height: 130,
         width:'100%',
         marginTop: 70,
-        marginLeft: 120
+        marginLeft: 105
       },
       network:{
         height: 130,
         width:350,
         marginTop: -20,
-        marginLeft: 50
+        marginLeft: 30
       },
       input:{
         backgroundColor: '#d0d3d4',
