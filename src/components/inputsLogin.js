@@ -26,11 +26,11 @@ function InputsLogin() {
             <View style={styles.campo}>
                 <TextInput style={styles.input} secureTextEntry placeholderTextColor="#000" placeholder='Contraseña' value={pasword} onChangeText={setPassword}/>
             </View>
-            {/* <Pressable style={styles.submitBtn} onPress={() => navigation.navigate('Panel')}> */}
-            <Pressable style={styles.submitBtn} onPress={handIngresar}>
+            <Pressable style={styles.submitBtn} onPress={() => navigation.navigate('Panel')}>
+            {/* <Pressable style={styles.submitBtn} onPress={handIngresar}> */}
                 <Text style={styles.submitBtnTexto}>Ingresar</Text>
             </Pressable>
-            <View style={{flexDirection:'row', marginTop: 20}}>
+            <View style={{flexDirection:'row', marginHorizontal: 20}}>
                 <Text style={styles.registrarse}>¿Aun no tienes cuenta?</Text>
                 <TouchableOpacity onPress={() => navigation.navigate('Registro')}>
                     <Text style={[styles.registrarse , styles.colorResgistrar]}> Registrate</Text>
