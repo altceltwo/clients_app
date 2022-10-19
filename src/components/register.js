@@ -1,31 +1,101 @@
-import React, { useState  } from 'react'
-import {Text,StyleSheet,View, SafeAreaView,TextInput, Pressable, Image, ScrollView, TouchableOpacity} from 'react-native'
+import React, { useState, useEffect  } from 'react'
+import {Text,StyleSheet,View, SafeAreaView,TextInput, Pressable, Image, ScrollView, TouchableOpacity, Alert} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 
 function Register() {
     const navigation = useNavigation(); 
 
-    const [nombreCompleto, setNombreCompleto] = useState('')
-    const [correo, setCorreo] = useState('')
-    const [telefono, setTelefono] = useState('')
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [phone, setPhone] = useState('')
     const [password, setPassword] = useState('')
-    const [passwordConfirmar, setPasswordConfirmar] = useState('')
+    const [passwordConfirm, setPasswordConfirm] = useState('')
 
-    const handRegistro = () => {
-        if([nombreCompleto, correo, telefono, password, passwordConfirmar].includes('')){
-            console.log('campos vacios')
+    const isValidEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    const handRegistro = async () => {
+        if([name, email, phone, password, passwordConfirm].includes('')){
+            Alert.alert(
+                "Error",
+                "Todos los campos son obligatorios"
+              )
             return
         }
 
-        const agregarRegistro = {
-            nombreCompleto,
-            correo,
-            telefono,
-            password,
-            passwordConfirmar
+        if(password != passwordConfirm){
+            Alert.alert(
+                "Error",
+                "La contraseña debe coincidir"
+              )
+            return
         }
 
-        console.log(agregarRegistro)
+        if (!isValidEmail.test(email)) {
+            Alert.alert(
+                "Error",
+                "Ingresa un correo electrónico válido"
+              )
+            return
+          }
+          
+        try {
+            const response = await fetch('https://appmobile.altcel2.com/registro', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    phone,
+                    password,
+                    passwordConfirm
+                })
+            }) 
+            .then(function(response) {
+                if(response.status == 400)
+                {
+                    Alert.alert(
+                        "Error"+' '+response.status,
+                        "Número se encuentra registrado"
+                      )
+                    return
+                } else{
+                    Alert.alert(
+                        "Success",
+                        "Registro Existoso"
+                      )
+                    return
+                }
+            })
+
+            
+            // .then((response) => response.json())
+            // .then((data) => {
+            //     if(data.http_code == '400'){
+                    // Alert.alert(
+                    //     "Error"+' '+data.http_code,
+                    //     "Número se encuentra registrado"
+                    //   )
+                    // return
+            //     }
+            //    console.log('Success:', data.status);
+            // }
+            // );
+
+            const {nombre, correo, telefono, contrasenia} = await response.json()
+            // const {message} = await response.json()
+
+            setName(nombre)
+            setEmail(correo)
+            setPhone(telefono)
+            setPassword(contrasenia)
+            // console.log(response);
+
+        }catch(error){
+            console.log(error)
+        }
+
     }
 
     return (  
@@ -57,8 +127,8 @@ function Register() {
                             <TextInput
                                 style={styles.input}
                                 placeholderTextColor={'#666'}
-                                value={nombreCompleto}
-                                onChangeText={setNombreCompleto}
+                                value={name}
+                                onChangeText={setName}
                             />
                     </View>
 
@@ -68,8 +138,8 @@ function Register() {
                                 style={styles.input}
                                 placeholderTextColor={'#666'}
                                 keyboardType='email-address'
-                                value={correo}
-                                onChangeText={setCorreo}
+                                value={email}
+                                onChangeText={setEmail}
                             />
                     </View>
 
@@ -80,8 +150,8 @@ function Register() {
                                 placeholderTextColor={'#666'}
                                 keyboardType='number-pad'
                                 maxLength={10}
-                                value={telefono}
-                                onChangeText={setTelefono}
+                                value={phone}
+                                onChangeText={setPhone}
                             />
                     </View>
 
@@ -102,8 +172,8 @@ function Register() {
                                 style={styles.input}
                                 placeholderTextColor={'#666'}
                                 secureTextEntry
-                                value={passwordConfirmar}
-                                onChangeText={setPasswordConfirmar}
+                                value={passwordConfirm}
+                                onChangeText={setPasswordConfirm}
                             />
                     </View>
 
