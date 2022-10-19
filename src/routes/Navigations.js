@@ -1,21 +1,29 @@
 import React from 'react';
-import {NavigationContainer}  from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Login from '../components/login';
 import Panel from '../components/panel';
 import Registro from '../components/register';
 import Inputs from '../components/inputsLogin';
-const Stack = createStackNavigator();
+import { EstadoCuenta } from '../components/estadoCuenta';
+import { Recargas } from '../components/recargas';
+const Stack = createNativeStackNavigator();
+// const Tab = createBottomTabNavigator();
 const Navigations = () => {
   return (
-        <NavigationContainer>
-          <Stack.Navigator InitialRouteName="Login" screenOptions={{headerShown: false}}>
+          <Stack.Navigator screenOptions={{headerShown: false}}>
             <Stack.Screen name="Login" component={Login}/>
             <Stack.Screen name="Panel" component={Panel} />
-            <Stack.Screen name="Inputs" screenOptions={{headerShown: false}} component={Inputs} />
-            <Stack.Screen name="Registro" screenOptions={{headerShown: false}} component={Registro} />
+            <Stack.Screen name="Inputs" component={Inputs} />
+            <Stack.Screen name="Registro" component={Registro} />
           </Stack.Navigator>
-        </NavigationContainer>
+           
+          //TODO: validacion user para mostrat bottom navigation
+          //  <Tab.Navigator screenOptions={{headerShown: false}}>
+          //   <Tab.Screen name="Panel"  component={Panel} />
+          //   <Tab.Screen name="EstadoCuenta" component={EstadoCuenta} />
+          //   <Tab.Screen name="Recargas" component={Recargas} />
+          // </Tab.Navigator> 
   );
 };
 

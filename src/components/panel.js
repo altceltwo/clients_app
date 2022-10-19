@@ -1,5 +1,5 @@
 import React from 'react'
-import {Text,StyleSheet,View, Button} from 'react-native'
+import {Text,StyleSheet,View, Pressable} from 'react-native'
 import Swiper from 'react-native-swiper'
 import Card from './card';
 
@@ -7,6 +7,11 @@ function Panel() {
     return ( 
         <View style={styles.container}>
             <View style={styles.body}>
+                <View style={styles.addDevice}>
+                    <Pressable style={styles.btnAddDevice}>
+                        <Text style={{color:'black'}}>Agregar Dispositivo</Text>
+                    </Pressable>
+                </View>
                 <Swiper style={styles.wrapper} showsButtons={true} >
                     <Card style={styles.card}/>
                     <Card style={styles.card}/>
@@ -41,11 +46,23 @@ const styles = StyleSheet.create({
     },
     body:{
         flex:4,
-        alignItems:'center',
-        justifyContent:'center',
         width:'100%',
         marginVertical: 100,
         height: 400
     },
+    addDevice:{
+        marginHorizontal:35,
+        alignItems:'flex-start',
+        marginBottom: -40
+    },
+    btnAddDevice:{
+        padding: 5,
+        color:'black',
+        fontSize: 15,
+        borderWidth: 1,
+        borderRadius: 8,
+        marginBottom: 20,
+        borderColor: '#F5232D'
+    }
 })
 export default Panel;

@@ -26,7 +26,7 @@ function InputsLogin() {
             <View style={styles.campo}>
                 <TextInput style={styles.input} secureTextEntry placeholderTextColor="#000" placeholder='Contraseña' value={pasword} onChangeText={setPassword}/>
             </View>
-            <Pressable style={styles.submitBtn} onPress={() => navigation.navigate('Panel')}>
+            <Pressable style={styles.submitBtn} onPress={() => navigation.replace('Panel')}>
             {/* <Pressable style={styles.submitBtn} onPress={handIngresar}> */}
                 <Text style={styles.submitBtnTexto}>Ingresar</Text>
             </Pressable>

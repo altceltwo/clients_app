@@ -81,8 +81,10 @@ const styles = StyleSheet.create({
         fontSize: 15,
         borderWidth: 1,
         borderRadius: 8,
-        marginBottom: 20,
-        borderColor: '#F5232D'
+        marginBottom: 15,
+        borderColor: '#F5232D',
+        padding: 3,
+
     },
     infoPlan:{
         alignItems: 'center'
