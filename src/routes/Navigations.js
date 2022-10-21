@@ -24,7 +24,7 @@ const Navigations = () => {
            <Tab.Navigator screenOptions={{headerShown: false}}>
             <Tab.Screen name="Inicio"  component={Panel} options={{
               tabBarIcon:()=>(
-                <Icon name='house' size={25} color={'black'}/>
+                <Icon name='house-chimney' size={25} color={'black'}/>
               )
             }}/>
             <Tab.Screen name="Estado de Cuenta" component={EstadoCuenta} />
