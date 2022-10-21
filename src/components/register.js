@@ -1,7 +1,7 @@
 import React, { useState, useEffect  } from 'react'
-import {Text,StyleSheet,View, SafeAreaView,TextInput, Pressable, Image, ScrollView, TouchableOpacity, Alert} from 'react-native'
+import {Text,StyleSheet,View, TextInput, Pressable, Image, ScrollView, TouchableOpacity, Alert} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { RegisterApi } from '../helpers/RegisterApi';
 
 function Register() {
     const navigation = useNavigation(); 
@@ -38,76 +38,38 @@ function Register() {
               )
             return
           }
-          
-        try {
-            const response = await fetch('https://appmobile.altcel2.com/registro', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name,
-                    email,
-                    phone,
-                    password,
-                    passwordConfirm
-                })
-            }) 
-            .then(function(response) {
-                if(response.status == 400)
-                {
-                    Alert.alert(
-                        "Error"+' '+response.status,
-                        "Número se encuentra registrado"
-                      )
-                    return
-                } else{
-                    Alert.alert(
-                        "Success",
-                        "Registro Existoso"
-                      )
-                    return
-                }
-            })
 
-            
-            // .then((response) => response.json())
-            // .then((data) => {
-            //     if(data.http_code == '400'){
-                    // Alert.alert(
-                    //     "Error"+' '+data.http_code,
-                    //     "Número se encuentra registrado"
-                    //   )
-                    // return
-            //     }
-            //    console.log('Success:', data.status);
-            // }
-            // );
+          const data = {
+            name, email, phone, password, passwordConfirm
+          }
 
-            const {nombre, correo, telefono, contrasenia} = await response.json()
-            // const {message} = await response.json()
+          const {nombre, correo, telefono, contrasenia, status} = RegisterApi(data);
+          setName(nombre)
+          setEmail(correo)
+          setPhone(telefono)
+          setPassword(contrasenia)
 
-            setName(nombre)
-            setEmail(correo)
-            setPhone(telefono)
-            setPassword(contrasenia)
-            // console.log(response);
-
-        }catch(error){
-            console.log(error)
-        }
+          if(status == 400)
+            {
+                Alert.alert(
+                    "Error"+' '+status,
+                    "Número se encuentra registrado"
+                  )
+                return
+            } else{
+                Alert.alert(
+                    "Success",
+                    "Registro Existoso"
+                  )
+                return
+            }
 
     }
 
     return (  
         
     <View style={styles.container}>
-        <ScrollView>
-                <TouchableOpacity 
-                    style={styles.returnImg}
-                    onPress={() => navigation.navigate('Login')}>
-                    <Image style={styles.return_Img} source={require('../../assets/img/return.png')}/>                        
-                </TouchableOpacity> 
+        
                 <View style={[styles.header,{flex:1}]}>
                     <View style={styles.cont2}>
                         <Image style={styles.altcel} source={require('../../assets/img/logo.png')}/>                        
@@ -118,78 +80,83 @@ function Register() {
                 </View>
 
                 <View style={styles.contenido}>
-                    <View>
-                        <Text style={[styles.textoCuenta, styles.tituloBold]}>Crea tu cuenta</Text>
-                        <Text style={styles.textoInformacion}>Ingresa tu información</Text>
-                    </View>
+                <ScrollView>
+                        <View>
+                            <Text style={[styles.textoCuenta, styles.tituloBold]}>Crea tu cuenta</Text>
+                            <Text style={styles.textoInformacion}>Ingresa tu información</Text>
+                        </View>
 
-                    <View style={styles.campo}>
-                        <Text style={styles.label}>Nombre completo</Text>
-                            <TextInput
-                                style={styles.input}
-                                placeholderTextColor={'#666'}
-                                value={name}
-                                onChangeText={setName}
-                            />
-                    </View>
+                        <View style={styles.campo}>
+                            <Text style={styles.label}>Nombre completo</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholderTextColor={'#666'}
+                                    value={name}
+                                    onChangeText={setName}
+                                />
+                        </View>
 
-                    <View style={styles.campo}>
-                        <Text style={styles.label}>Correo electrónico</Text>
-                            <TextInput
-                                style={styles.input}
-                                placeholderTextColor={'#666'}
-                                keyboardType='email-address'
-                                value={email}
-                                onChangeText={setEmail}
-                            />
-                    </View>
+                        <View style={styles.campo}>
+                            <Text style={styles.label}>Correo electrónico</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholderTextColor={'#666'}
+                                    keyboardType='email-address'
+                                    value={email}
+                                    onChangeText={setEmail}
+                                />
+                        </View>
 
-                    <View style={styles.campo}>
-                        <Text style={styles.label}>Teléfeno</Text>
-                            <TextInput
-                                style={styles.input}
-                                placeholderTextColor={'#666'}
-                                keyboardType='number-pad'
-                                maxLength={10}
-                                value={phone}
-                                onChangeText={setPhone}
-                            />
-                    </View>
+                        <View style={styles.campo}>
+                            <Text style={styles.label}>Teléfeno</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholderTextColor={'#666'}
+                                    keyboardType='number-pad'
+                                    maxLength={10}
+                                    value={phone}
+                                    onChangeText={setPhone}
+                                />
+                        </View>
 
-                    <View style={styles.campo}>
-                        <Text style={styles.label}>Contraseña</Text>
-                            <TextInput
-                                style={styles.input}
-                                placeholderTextColor={'#666'}
-                                secureTextEntry
-                                value={password}
-                                onChangeText={setPassword}
-                            />
-                    </View>
+                        <View style={styles.campo}>
+                            <Text style={styles.label}>Contraseña</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholderTextColor={'#666'}
+                                    secureTextEntry
+                                    value={password}
+                                    onChangeText={setPassword}
+                                />
+                        </View>
 
-                    <View style={styles.campo}>
-                        <Text style={styles.label}>Confirmar contraseña</Text>
-                            <TextInput
-                                style={styles.input}
-                                placeholderTextColor={'#666'}
-                                secureTextEntry
-                                value={passwordConfirm}
-                                onChangeText={setPasswordConfirm}
-                            />
-                    </View>
+                        <View style={styles.campo}>
+                            <Text style={styles.label}>Confirmar contraseña</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholderTextColor={'#666'}
+                                    secureTextEntry
+                                    value={passwordConfirm}
+                                    onChangeText={setPasswordConfirm}
+                                />
+                        </View>
 
-                    <Pressable 
-                        style={styles.btnNuevoRegistro}
-                        onPress={handRegistro}
-                        >
-                        <Text style={styles.btnNuevoRegistroTexto}> Registrarse </Text>
-                    </Pressable>
+                        <Pressable 
+                            style={styles.btnNuevoRegistro}
+                            onPress={handRegistro}
+                            >
+                            <Text style={styles.btnNuevoRegistroTexto}> Registrarse </Text>
+                        </Pressable>
 
-                    <View>
-                        <Text style={styles.textoRegistrar}>¿Aún no tienes una cuenta? Registrate</Text>
-                    </View>
+                        <View style={{flexDirection:'row', marginHorizontal: 50, marginTop:-30, marginBottom: 30}}>
+                            <Text style={styles.registrarse}>¿Ya tienes una cuenta? </Text>
+                            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                                <Text style={[styles.registrarse , styles.colorResgistrar]}> Iniciar sesión</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </ScrollView>
+
                 </View>
-        </ScrollView>
     </View>  
     );
 }
@@ -226,16 +193,6 @@ const styles = StyleSheet.create({
         marginTop: 70,
         marginLeft: 105
     },
-    returnImg:{
-        height: 50,
-        width: '50%',
-    },
-    return_Img:{
-        height: 20,
-        width:'12%',
-        marginTop: 20,
-        marginLeft: 17
-    },
     textoCuenta:{
         color: 'red',
         fontSize: 40,
@@ -254,6 +211,7 @@ const styles = StyleSheet.create({
 
 
     contenido: {
+        marginTop: -450,
         backgroundColor: '#fff',
         flex: 1,
         borderRadius: 10,
@@ -316,7 +274,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginHorizontal: 1,
     marginVertical: -35
-   }
+   },
+   colorResgistrar:{
+    color: 'red'
+  },
+  registrarse:{
+    color: '#000',
+    textAlign: 'center',
+    fontSize: 17
+},
       
 })
 
