@@ -13,23 +13,23 @@ const Tab = createBottomTabNavigator();
 const Navigations = () => {
   return (
 
-          // <Stack.Navigator screenOptions={{headerShown: false}}>
-          //   <Stack.Screen name="Login" component={Login}/>
-          //   <Stack.Screen name="Panel" component={Panel} />
-          //   <Stack.Screen name="Inputs" component={Inputs} />
-          //   <Stack.Screen name="Registro" component={Registro} />
-          // </Stack.Navigator>
+          <Stack.Navigator screenOptions={{headerShown: false}}>
+            <Stack.Screen name="Login" component={Login}/>
+            <Stack.Screen name="Panel" component={Panel} />
+            <Stack.Screen name="Inputs" component={Inputs} />
+            <Stack.Screen name="Registro" component={Registro} />
+          </Stack.Navigator>
            
           //TODO: validacion user para mostrat bottom navigation
-           <Tab.Navigator screenOptions={{headerShown: false}}>
-            <Tab.Screen name="Inicio"  component={Panel} options={{
-              tabBarIcon:()=>(
-                <Icon name='house' size={25} color={'black'}/>
-              )
-            }}/>
-            <Tab.Screen name="Estado de Cuenta" component={EstadoCuenta} />
-            <Tab.Screen name="Recargas" component={Recargas} />
-          </Tab.Navigator> 
+          //  <Tab.Navigator screenOptions={{headerShown: false}}>
+          //   <Tab.Screen name="Inicio"  component={Panel} options={{
+          //     tabBarIcon:()=>(
+          //       <Icon name='house' size={25} color={'black'}/>
+          //     )
+          //   }}/>
+          //   <Tab.Screen name="Estado de Cuenta" component={EstadoCuenta} />
+          //   <Tab.Screen name="Recargas" component={Recargas} />
+          // </Tab.Navigator> 
   );
 };
 

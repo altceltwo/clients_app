@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
 
 
     contenido: {
-        marginTop: -450,
+        marginTop: -350,
         backgroundColor: '#fff',
         flex: 1,
         borderRadius: 10,
