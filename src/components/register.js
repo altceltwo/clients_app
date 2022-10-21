@@ -1,6 +1,7 @@
 import React, { useState, useEffect  } from 'react'
 import {Text,StyleSheet,View, SafeAreaView,TextInput, Pressable, Image, ScrollView, TouchableOpacity, Alert} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Register() {
     const navigation = useNavigation(); 
