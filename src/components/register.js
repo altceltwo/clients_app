@@ -1,10 +1,17 @@
 import React, { useState, useEffect  } from 'react'
 import {Text,StyleSheet,View, TextInput, Pressable, Image, ScrollView, TouchableOpacity, Alert} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
-import { RegisterApi } from '../helpers/RegisterApi';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+
 
 function Register() {
+    
     const navigation = useNavigation(); 
+
+    const [accesoLoaded, setAccesoLoaded] = useState(false)
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -14,7 +21,55 @@ function Register() {
 
     const isValidEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+        // useEffect(() => {
+            const obtenerPresupuestoStorage = async () => {
+                try {
+                    const nameStorage = await AsyncStorage.getItem('nameStorage') ?? ''
+                    const emailStorage = await AsyncStorage.getItem('emailStorage') ?? ''
+                    const phoneStorage = await AsyncStorage.getItem('phoneStorage') ?? ''
+                    const passwordStorage = await AsyncStorage.getItem('passwordStorage') ?? ''
+                    // console.log("nameStorage: ",nameStorage)
+                    if(nameStorage ){
+                        console.log(nameStorage)
+                        console.log(emailStorage)
+                        console.log(phoneStorage)
+                        console.log(passwordStorage)
+
+                    //setName(nameStorage)
+                    // setEmail(emailStorage)
+                    // setPhone(phoneStorage)
+                    // setPassword(passwordStorage)
+                    setAccesoLoaded(true)
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+            // obtenerPresupuestoStorage();
+        // },[])
+      
+    
+      useEffect(() => {
+        if(accesoLoaded){
+          const guardarStorage = async () => {
+            try {
+              await AsyncStorage.setItem('nameStorage', JSON.stringify(name)),
+              await AsyncStorage.setItem('emailStorage', JSON.stringify(email)),
+              await AsyncStorage.setItem('phoneStorage', JSON.stringify(phone)),
+              await AsyncStorage.setItem('passwordStorage', JSON.stringify(password))
+    
+            } catch (error) {
+                console.log(error)
+            }
+          }
+          guardarStorage();
+        }
+      },[accesoLoaded])
+
     const handRegistro = async () => {
+        
+        // await AsyncStorage.setItem(my_storage_user, JSON.stringify(name));
+        
         if([name, email, phone, password, passwordConfirm].includes('')){
             Alert.alert(
                 "Error",
@@ -38,33 +93,73 @@ function Register() {
               )
             return
           }
+          
+        try {
+            const response = await fetch('https://appmobile.altcel2.com/registro', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    phone,
+                    password,
+                    passwordConfirm
+                })
+            }) 
+            .then(function(response) {
+                console.log(response);
+                if(response.status == 400)
+                {
+                    Alert.alert(
+                        "Error"+' '+response.status,
+                        "Número se encuentra registrado"
+                      )
+                    return
+                } else{
+                    Alert.alert(
+                        "Success",
+                        "Registro Existoso"
+                      )
+                        obtenerPresupuestoStorage();
+                        navigation.replace('Panel');
+                    return
+                }
+            })
 
-          const data = {
-            name, email, phone, password, passwordConfirm
-          }
+            
+            // .then((response) => response.json())
+            // .then((data) => {
+            //     if(data.http_code == '400'){
+                    // Alert.alert(
+                    //     "Error"+' '+data.http_code,
+                    //     "Número se encuentra registrado"
+                    //   )
+                    // return
+            //     }
+            //    console.log('Success:', data.status);
+            // }
+            // );
 
-          const {nombre, correo, telefono, contrasenia, status} = RegisterApi(data);
-          setName(nombre)
-          setEmail(correo)
-          setPhone(telefono)
-          setPassword(contrasenia)
+            const {nombre, correo, telefono, contrasenia} = await response.json()
+            // const {message} = await response.json()
+            Alert.alert(
+                "Success",
+                "Registro Existoso1"
+              )
 
-          if(status == 400)
-            {
-                Alert.alert(
-                    "Error"+' '+status,
-                    "Número se encuentra registrado"
-                  )
-                return
-            } else{
-                Alert.alert(
-                    "Success",
-                    "Registro Existoso"
-                  )
-                return
-            }
+            setName(nombre)
+            setEmail(correo)
+            setPhone(telefono)
+            setPassword(contrasenia)
+            // console.log(response);
 
+        }catch(error){
+            console.log(error)
+        }
     }
+
 
     return (  
         
