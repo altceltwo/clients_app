@@ -69,7 +69,7 @@ function Register() {
     const handRegistro = async () => {
         
         // await AsyncStorage.setItem(my_storage_user, JSON.stringify(name));
-        
+        const ac = new AbortController();
         if([name, email, phone, password, passwordConfirm].includes('')){
             Alert.alert(
                 "Error",
