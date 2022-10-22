@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
     },
     wrapper: {
-        color: 'red'
+        color: 'red',
       },
     header:{
         backgroundColor:'#FFF5F5',
@@ -98,7 +98,8 @@ const styles = StyleSheet.create({
     addDevice:{
         marginHorizontal:35,
         alignItems:'flex-start',
-        marginBottom: -40
+        marginBottom: -50,
+        marginTop: -70
     },
     btnAddDevice:{
         padding: 5,
