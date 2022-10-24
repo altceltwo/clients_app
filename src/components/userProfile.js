@@ -1,12 +1,16 @@
 import React from 'react'
-import { Text } from 'react-native'
+import {Text,StyleSheet,View, Button} from 'react-native'
 
-userProfile = () => {
+export const UserProfile = () => {
   return (
     <>
-        <Text>Perfil del Usuario</Text>
+        <Text style={styles.text}>Perfil Usuario</Text>
     </>
   )
 }
 
-export default userProfile;
+const styles = StyleSheet.create({
+    text:{
+        color:'black'
+    }
+})
