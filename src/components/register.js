@@ -68,8 +68,8 @@ function Register() {
 
     const handRegistro = async () => {
         
-        // await AsyncStorage.setItem(my_storage_user, JSON.stringify(name));
-        const ac = new AbortController();
+        console.log(password.length);
+
         if([name, email, phone, password, passwordConfirm].includes('')){
             Alert.alert(
                 "Error",
@@ -82,6 +82,13 @@ function Register() {
             Alert.alert(
                 "Error",
                 "La contraseña debe coincidir"
+              )
+            return
+        }
+        if(password.length < 8 || password.length > 8){
+            Alert.alert(
+                "Error",
+                "La contraseña debe tener 8 caracteres"
               )
             return
         }
@@ -108,8 +115,9 @@ function Register() {
                     passwordConfirm
                 })
             }) 
-            .then(function(response) {
-                console.log(response);
+            
+            .then((response) => {
+                // console.log(response);
                 if(response.status == 400)
                 {
                     Alert.alert(
@@ -131,29 +139,24 @@ function Register() {
             
             // .then((response) => response.json())
             // .then((data) => {
+            //     console.log(data)
             //     if(data.http_code == '400'){
-                    // Alert.alert(
-                    //     "Error"+' '+data.http_code,
-                    //     "Número se encuentra registrado"
-                    //   )
-                    // return
+            //         Alert.alert(
+            //             "Error"+' '+data.http_code,
+            //             "Número se encuentra registrado"
+            //           )
+            //         return
             //     }
             //    console.log('Success:', data.status);
             // }
             // );
 
             const {nombre, correo, telefono, contrasenia} = await response.json()
-            // const {message} = await response.json()
-            Alert.alert(
-                "Success",
-                "Registro Existoso1"
-              )
 
             setName(nombre)
             setEmail(correo)
             setPhone(telefono)
             setPassword(contrasenia)
-            // console.log(response);
 
         }catch(error){
             console.log(error)
