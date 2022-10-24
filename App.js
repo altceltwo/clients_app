@@ -4,14 +4,11 @@ import {
   View,
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-// import Navigations from './src/routes/Navigations';
 import NavegationLogged from './src/routes/NavegationLogged';
-import Register from './src/components/register';
 import Navigations from './src/routes/Navigations';
 const App = () => {
   const [dato, setDato] = useState(false);
   // const dato = true
-
   return (
     <View style={styles.container}>
     <NavigationContainer>

@@ -1,17 +1,14 @@
-import React, { useState } from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/Ionicons'
-import Login from '../components/login';
 import Panel from '../components/panel';
-import Registro from '../components/register';
-import Inputs from '../components/inputsLogin';
 import { EstadoCuenta } from '../components/estadoCuenta';
 import { Recargas } from '../components/recargas';
 import { Text, Image, Pressable } from 'react-native';
-import {userProfile}  from '../components/userProfile';
-const Stack = createNativeStackNavigator();
+import {UserProfile} from '../components/userProfile';
+
 const Tab = createBottomTabNavigator();
 
 
@@ -40,6 +37,8 @@ const NavegationLogged = () => {
                   iconName = focused ? 'document-text-outline' : 'document-text-outline';
                 }else if (route.name === 'Recargas') {
                   iconName = focused ? 'cash-outline' : 'cash-outline';
+                }else if (route.name === 'Perfil del Usuario') {
+                  iconName = focused ? 'person-outline' : 'person-outline';
                 }
 
                 // You can return any component that you like here!
@@ -53,7 +52,7 @@ const NavegationLogged = () => {
               headerTintColor: 'red',
               headerTitle: (props) => <LogoTitle {...props} />,
               headerRight: () => (
-                <Pressable onPress={() => navigation.navigate('userProfile')}><Text style={{color:'black', marginRight:30}}>UserName</Text></Pressable>
+                <Pressable onPress={() => navigation.navigate('Perfil del Usuario')}><Text style={{color:'black', marginRight:30}}>UserName</Text></Pressable>
               ),
               headerStyle: {
                 backgroundColor: '#fff',
@@ -68,9 +67,45 @@ const NavegationLogged = () => {
                 elevation: 8,
               }
             }} name="Inicio" component={Panel} />
-            <Tab.Screen name="Estado de Cuenta" component={EstadoCuenta} />
-            <Tab.Screen name="Recargas" component={Recargas} />
-            {/* <Tab.Screen name="Perfil del Usuario" component={userProfile} /> */}
+            <Tab.Screen name="Estado de Cuenta" component={EstadoCuenta} options={{
+              headerTintColor: 'red',
+              headerTitle: (props) => <LogoTitle {...props} />,
+              headerRight: () => (
+                <Pressable onPress={() => navigation.navigate('Perfil del Usuario')}><Text style={{color:'black', marginRight:30}}>UserName</Text></Pressable>
+              ),
+              headerStyle: {
+                backgroundColor: '#fff',
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 4,
+                },
+                shadowOpacity: 0.30,
+                shadowRadius: 4.65,
+
+                elevation: 8,
+              }
+            }}/>
+            <Tab.Screen name="Recargas" component={Recargas} options={{
+              headerTintColor: 'red',
+              headerTitle: (props) => <LogoTitle {...props} />,
+              headerRight: () => (
+                <Pressable onPress={() => navigation.navigate('Perfil del Usuario')}><Text style={{color:'black', marginRight:30}}>UserName</Text></Pressable>
+              ),
+              headerStyle: {
+                backgroundColor: '#fff',
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 4,
+                },
+                shadowOpacity: 0.30,
+                shadowRadius: 4.65,
+
+                elevation: 8,
+              }
+            }}/>
+            <Tab.Screen name="Perfil del Usuario" component={UserProfile} options={{lazy:false, }}/>
           </Tab.Navigator>
   );
 };
