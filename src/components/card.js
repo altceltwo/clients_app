@@ -1,17 +1,20 @@
 
 import React, {useState, useEffect} from 'react'
 import {Text,StyleSheet,View, Image, Button, Pressable} from 'react-native'
+import { getDataDB } from '../helpers/getDataDB';
 
-function Card() {
+function Card({device}) {
+    console.log(device + 'CARDS')
     return ( 
         <View style={styles.card}>
             <View style={[styles.headerDevice,{flex:1}]}>
                 <Image style={styles.mifiLetra} source={require('../../assets/img/MIFI-2.png')}/>
                 <Text style={styles.dateActivation}>Activado desde: 29/06/2022</Text> 
+                <Text style={styles.infoCenter}>29/06/2022</Text> 
             </View>
             <View style={[styles.content,{flex:4}]}>
                 <View style={[styles.infoPlan,{flex:2}]}>
-                    <View style={styles.mtText}>
+                    <View style={[styles.textFirst]}>
                         <Text style={[styles.text, styles.infoCenter]}>Paquete:</Text>
                         <Text style={styles.text}>MIFI 20 GB TN USO INTERNO</Text>
                     </View>
@@ -20,10 +23,6 @@ function Card() {
                     </View>
                     <View style={styles.mtText}>
                         <Text style={[styles.text, styles.infoCenter]}>Estado de servicio: Activo</Text>
-                    </View>
-                    <View style={styles.mtText}> 
-                        <Text style={[styles.text, styles.infoCenter]}>SIM asignado:</Text>
-                        <Text style={styles.text}>8952140061756550841F</Text>
                     </View>
                     <View style={styles.mtText}>
                         <Text style={[styles.text, styles.infoCenter]}>Correo electrónico:</Text>
@@ -73,7 +72,7 @@ const styles = StyleSheet.create({
     },
     dateActivation:{
         marginTop:-30,
-        fontSize: 18,
+        fontSize: 15,
         color:'black'
     },
     btnConsumos:{
@@ -92,7 +91,7 @@ const styles = StyleSheet.create({
     mifiDevice:{
         height: 140,
         width: 110,
-        marginLeft: 110,
+        marginHorizontal: 80,
         marginTop: -20
     },
     mtText:{
@@ -101,6 +100,10 @@ const styles = StyleSheet.create({
     },
     infoCenter:{
         fontWeight: 'bold',
+        alignItems:'center'
+    },
+    textFirst:{
+        marginTop: 40,
         alignItems:'center'
     }
     

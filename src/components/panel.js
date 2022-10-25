@@ -1,17 +1,23 @@
-import React, { useState } from 'react'
-import {Text,StyleSheet,View, Pressable, Modal, Button} from 'react-native'
+import React, { useEffect, useState } from 'react'
+import {Text,StyleSheet,View, Pressable, Modal, Button, Dimensions} from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Swiper from 'react-native-swiper'
 import Card from './card';
 import { TextInput } from 'react-native-gesture-handler';
+import { getDataDB } from '../helpers/getDataDB';
+import Carousel from 'react-native-snap-carousel';
+
 
 function Panel() {
     const [isVisible, setIsVisible] = useState(false)
+    const {useGetDevice} = getDataDB()
+    // console.log(useGetDevice);
+    
     return ( 
         <View style={styles.container}>
             <View style={styles.body}>
                 <View style={styles.addDevice}>
-                    <Pressable style={styles.btnAddDevice} onPress={() =>{setIsVisible(true)}}>
+                    <Pressable style={styles.btnAddDevice} >
                         <Text style={{color:'black', alignItems:'center'}}>Agregar Dispositivo <Icon name='add-outline' size={25} color="blue"/></Text>
                     </Pressable>
 
@@ -32,10 +38,24 @@ function Panel() {
                         </View>
                     </Modal>
                 </View>
-                <Swiper style={styles.wrapper} showsButtons={true} >
-                    <Card style={styles.card}/>
-                    <Card style={styles.card}/>
-                </Swiper>
+                {/* <Swiper style={styles.wrapper} showsButtons={true} >
+                    <Card style={styles.card} />
+                    <Card device={item} item={item}></Card>
+                </Swiper> */}
+                {
+                    useGetDevice.length === 0 ? <Text></Text> :
+
+                    <Carousel
+                       itemWidth={300}
+                       sliderWidth={400}
+                       data={useGetDevice}
+                       keyExtractor={(item) => item.id}
+                       renderItem={({item}) => {return(
+                        <Card device={item} item={item}></Card>
+                       )}}
+                       
+                    />
+                }    
             </View>
         </View>
      );
