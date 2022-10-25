@@ -17,7 +17,9 @@ const App = () => {
       ):(
         <NavegationLogged />
       )}
-    </NavigationContainer>
+
+
+    </NavigationContainer>      
   </View>
   );
 };
