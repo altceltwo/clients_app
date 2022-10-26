@@ -1,16 +1,18 @@
 
 import React, {useState, useEffect} from 'react'
-import {Text,StyleSheet,View, Image, Button, Pressable} from 'react-native'
-import { getDataDB } from '../helpers/getDataDB';
+import {Text,StyleSheet,View, Image, Button, Pressable, Modal} from 'react-native'
+import {globalStyle} from '../styles';
+import  ModalConsumo  from './modalConsumo';
 
 function Card({device}) {
-    console.log(device + 'CARDS')
+    const {number, company, service, user_email, created_at, id} = device;
+    const [modalConsumo, setModalConsumo] = useState(false)
     return ( 
         <View style={styles.card}>
             <View style={[styles.headerDevice,{flex:1}]}>
                 <Image style={styles.mifiLetra} source={require('../../assets/img/MIFI-2.png')}/>
-                <Text style={styles.dateActivation}>Activado desde: 29/06/2022</Text> 
-                <Text style={styles.infoCenter}>29/06/2022</Text> 
+                <Text style={styles.dateActivation}>Activado desde:</Text> 
+                <Text style={[styles.infoCenter, styles.text]}>{created_at}</Text> 
             </View>
             <View style={[styles.content,{flex:4}]}>
                 <View style={[styles.infoPlan,{flex:2}]}>
@@ -19,21 +21,25 @@ function Card({device}) {
                         <Text style={styles.text}>MIFI 20 GB TN USO INTERNO</Text>
                     </View>
                     <View style={styles.mtText}>
-                        <Text style={[styles.text, styles.infoCenter]}>Núm. Chip: 3339064244</Text>
+                        <Text style={[styles.text, styles.infoCenter]}>Número</Text>
+                        <Text style={[styles.text]}>{number}</Text>
                     </View>
                     <View style={styles.mtText}>
                         <Text style={[styles.text, styles.infoCenter]}>Estado de servicio: Activo</Text>
                     </View>
                     <View style={styles.mtText}>
                         <Text style={[styles.text, styles.infoCenter]}>Correo electrónico:</Text>
-                        <Text style={styles.text}>charlesrootsman97@gmail.com</Text>
+                        <Text style={styles.text}>{user_email}</Text>
                     </View>
                 </View>
                 <View style={{flex:1}}>
                     <Image style={styles.mifiDevice} source={require('../../assets/img/MIFI.png')}/>
                 </View>
             </View>
-            <Pressable style={styles.btnConsumos}><Text style={styles.text}>Consumos de datos</Text></Pressable>
+            <Pressable style={styles.btnConsumos} onPress={()=> setModalConsumo(true)}><Text style={styles.text}>Consumos de datos</Text></Pressable>
+            <Modal transparent={true}  visible={modalConsumo}>
+                <ModalConsumo setModalConsumo={setModalConsumo}/>
+            </Modal>
         </View>
     );
 }
@@ -43,14 +49,13 @@ const styles = StyleSheet.create({
         flex:1,
         alignItems:'center',
         justifyContent:'center',
-        width:'85%',
+        width:'100%',
         marginVertical: 40,
-        marginHorizontal: 30,
         borderWidth: 2,
         borderStyle: 'solid',
         borderRadius: 15,
         borderColor: '#4923F5',
-        backgroundColor: '#FFF'
+        marginTop: 70
     },
     headerDevice:{
         width: '100%',
@@ -63,7 +68,7 @@ const styles = StyleSheet.create({
         height: 800
     },
     text:{
-        color:'black'
+        ...globalStyle.text
     },
     mifiLetra:{
         height: 50,
@@ -108,7 +113,8 @@ const styles = StyleSheet.create({
     textFirst:{
         marginTop: 40,
         alignItems:'center'
-    }
+    },
+    
     
 })
 export default Card;
