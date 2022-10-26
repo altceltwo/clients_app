@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderRadius: 15,
         borderColor: '#4923F5',
+        backgroundColor: '#FFF'
     },
     headerDevice:{
         width: '100%',
@@ -65,13 +66,14 @@ const styles = StyleSheet.create({
         color:'black'
     },
     mifiLetra:{
-        height: 100,
-        width:200,
-        marginLeft: 80,
-        marginTop: 10
+        height: 50,
+        width: 100,
+        marginVertical: 20,
+        // marginLeft: 80,
+        // marginTop: 10
     },
     dateActivation:{
-        marginTop:-30,
+        marginTop: -10,
         fontSize: 15,
         color:'black'
     },
@@ -100,7 +102,8 @@ const styles = StyleSheet.create({
     },
     infoCenter:{
         fontWeight: 'bold',
-        alignItems:'center'
+        alignItems:'center',
+        color:'#000'
     },
     textFirst:{
         marginTop: 40,
