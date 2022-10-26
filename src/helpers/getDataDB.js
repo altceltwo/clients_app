@@ -12,10 +12,14 @@ export const getDataDB = () => {
                     'Content-Type': 'application/json'
                 }
             }) 
+
+
     
-            const {message, http_code, devices} = await response.json()
-            setUseGetDevice(devices)
-            console.log(devices)
+            if(response.status == 200){
+                const {message, http_code, devices} = await response.json()
+                setUseGetDevice(devices)
+            }
+            // console.log(devices)
     
         }catch(error){
             console.log(error)

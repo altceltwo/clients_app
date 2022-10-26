@@ -1,27 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import {Text,StyleSheet,View, Pressable, Modal, Button, Dimensions} from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
-import Swiper from 'react-native-swiper'
 import Card from './card';
 import { TextInput } from 'react-native-gesture-handler';
 import { getDataDB } from '../helpers/getDataDB';
 import Carousel from 'react-native-snap-carousel';
+import { globalStyle } from '../styles';
 
 
 function Panel() {
     const [isVisible, setIsVisible] = useState(false)
     const {useGetDevice} = getDataDB()
-    // console.log(useGetDevice);
     
     return ( 
         <View style={styles.container}>
+            
             <View style={styles.body}>
-                <View style={styles.addDevice}>
-                    <Pressable style={styles.btnAddDevice} >
+            <View style={styles.addDevice}>
+                    <Pressable style={styles.btnAddDevice} onPress={() => setIsVisible(true)}>
                         <Text style={{color:'black', alignItems:'center'}}>Agregar Dispositivo <Icon name='add-outline' size={25} color="blue"/></Text>
                     </Pressable>
 
-                    <Modal transparent={true} visible={isVisible}>
+
+                    <Modal animationType='slide' transparent={true} visible={isVisible}>
                         <View style={styles.modalAdd}>
                             <View style={styles.bodyModal}>
                                 <View style={styles.formModal}>
@@ -38,12 +39,8 @@ function Panel() {
                         </View>
                     </Modal>
                 </View>
-                {/* <Swiper style={styles.wrapper} showsButtons={true} >
-                    <Card style={styles.card} />
-                    <Card device={item} item={item}></Card>
-                </Swiper> */}
                 {
-                    useGetDevice.length === 0 ? <Text></Text> :
+                    useGetDevice.length === 0 ? <Text>Aún no cuenta con dispositivos</Text> :
 
                     <Carousel
                        itemWidth={300}
@@ -89,37 +86,20 @@ const styles = StyleSheet.create({
     },
     container:{
         flex: 1,
-        backgroundColor: 'white'
-    },
-    wrapper: {
-        color: 'red',
-      },
-    header:{
-        backgroundColor:'#FFF5F5',
-        height:30,
-        width: '100%',
-        alignItems:'center',
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 7,
-        },
-        shadowOpacity: 0.30,
-        shadowRadius: 4.65,
-
-        elevation: 15,
+        backgroundColor: 'white',
     },
     body:{
-        flex:4,
+        flex: 1,
         width:'100%',
         marginVertical: 100,
-        height: 400
+        height: 400,
+        alignContent: 'center'
     },
     addDevice:{
         marginHorizontal:35,
         alignItems:'flex-start',
         marginBottom: -50,
-        marginTop: -70
+        marginTop: -90,
     },
     btnAddDevice:{
         padding: 5,
@@ -127,8 +107,9 @@ const styles = StyleSheet.create({
         fontSize: 15,
         borderWidth: 1,
         borderRadius: 8,
-        marginBottom: 20,
-        borderColor: '#F5232D'
+        marginBottom: 10,
+        borderColor: '#F5232D',
+        marginTop: 10
     },
     modalAdd:{
         flex: 1,
@@ -144,9 +125,7 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
     },
     btns:{
-        flexDirection:'row', 
-        justifyContent:'space-between', 
-        marginHorizontal: 30
+        ...globalStyle.btnsModal
     }
 })
 export default Panel;
