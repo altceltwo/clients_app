@@ -1,9 +1,39 @@
-import React from 'react'
-import { Button, StyleSheet, View ,Text} from 'react-native'
+import React, { useEffect } from 'react'
+import { Button, StyleSheet, View ,Text} from 'react-native';
+// import Progress  from 'react-native-progress'
+import * as Progress from 'react-native-progress';
+// import CircularProgress from 'react-native-circular-progress-indicator';
 import { globalStyle } from '../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
+import { getDataAltan } from '../helpers/getDataAltan';
 
-function ModalConsumo ({setModalConsumo})  {
+function ModalConsumo (setModalConsumo, number, id, service, accessToken)  {
+    // console.log(consultUF)
+    useEffect(() => {
+        consultUF()
+    }, [])
+
+    const consultUF = async () => { 
+        console.log(token, 'PETITION ALTAN')
+        // generateTokenAltan()
+        const userid = 41;
+        try {
+            const response = await fetch('https://altanredes-prod.apigee.net/cm/v1/subscribers/3339064244/profile', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+accessToken
+                }
+            }) 
+            const {detail} = await response.json()
+            console.log(detail)
+            // addDevice()
+    
+        }catch(error){
+            console.log(error)
+        }
+    }
+    
   return (
     <View style={styles.modalConsumos}>
         <View style={styles.contentConsumos}>
@@ -33,10 +63,31 @@ function ModalConsumo ({setModalConsumo})  {
                     </View>
 
                 </View>
-                <View style={styles.dataConsumo}>
-                    <View>
-                        <Text style={styles.textBody}>Consumo de datos: </Text>
-                    </View>
+                <View style={[styles.dataConsumo]}>
+                    {
+                        service == 'MOV' ?
+                            <View>
+                                <Text style={styles.textBody}>Consumo de datos: </Text>
+                                <View style={{marginBottom:10}}>
+                                    <Text style={styles.text}>Dtos:</Text>
+                                    <Progress.Bar  progress={0.5} width={320} height={10}/>
+                                </View>
+                                <View style={{marginBottom:10}}>
+                                    <Text style={styles.text}>Llamadas:</Text>
+                                    <Progress.Bar  progress={0.5} width={320} height={10}/>
+                                </View>
+                                <View>
+                                    <Text style={styles.text}>Mensajes:</Text>
+                                    <Progress.Bar  progress={0.5} width={320} height={10}/>
+                                </View>
+                            </View>
+                        :
+                        <View>
+                            <Text style={styles.textBody}>Consumo de datos: </Text>
+                            <Progress.Bar  progress={0.5} width={320} height={10}/>
+                            {/* <CircularProgress value={58} /> */}
+                        </View>
+                    }
                     <View style={styles.infodateStatus}>
                         <View>
                             <Text style={styles.textBody}>Contratado</Text>
@@ -47,7 +98,7 @@ function ModalConsumo ({setModalConsumo})  {
                             <Text style={styles.text}>3.99 Gb</Text>
                         </View>
                         <View>
-                            <Text style={styles.textBody}>Restante</Text>
+                            <Text style={styles.textBody}>Restante </Text>
                             <Text style={styles.text}>10 mbs</Text>
                         </View>
                     </View>
@@ -55,8 +106,6 @@ function ModalConsumo ({setModalConsumo})  {
             </View>
         </View>
         <View style={styles.btns}>
-            {/* <Button color="red"  title='Cerrar' onPress={() => setModalConsumo(false)}></Button>
-            <Button title='Recargar' onPress={() => setModalConsumo(false)} ></Button> */}
             <Icon.Button style={{backgroundColor:'red', height:40}} name='arrow-back-outline' onPress={() => setModalConsumo(false)}>Regresar</Icon.Button>
             <Icon.Button name='cart-outline' onPress={() => setModalConsumo(false)}>Recargar</Icon.Button>
         </View>
@@ -115,6 +164,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         // backgroundColor: 'red',
         justifyContent:'space-between', 
+        marginTop:10
     },
     dataConsumo: {
         flex: 5

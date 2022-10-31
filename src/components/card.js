@@ -4,9 +4,15 @@ import {Text,StyleSheet,View, Image, Button, Pressable, Modal} from 'react-nativ
 import {globalStyle} from '../styles';
 import  ModalConsumo  from './modalConsumo';
 
-function Card({device}) {
+function Card({device, accessToken}) {
     const {number, company, service, user_email, created_at, id} = device;
     const [modalConsumo, setModalConsumo] = useState(false)
+    // const {consultUF} = getDataAltan();
+
+    const onClick =() => {
+        setModalConsumo(true)
+        accessToken
+    }
     return ( 
         <View style={styles.card}>
             <View style={[styles.headerDevice,{flex:1}]}>
@@ -36,9 +42,9 @@ function Card({device}) {
                     <Image style={styles.mifiDevice} source={require('../../assets/img/MIFI.png')}/>
                 </View>
             </View>
-            <Pressable style={styles.btnConsumos} onPress={()=> setModalConsumo(true)}><Text style={styles.text}>Consumos de datos</Text></Pressable>
+            <Pressable style={styles.btnConsumos} onPress={()=> onClick(onClick)}><Text style={styles.text}>Consumos de datos</Text></Pressable>
             <Modal transparent={true}  visible={modalConsumo}>
-                <ModalConsumo setModalConsumo={setModalConsumo}/>
+                <ModalConsumo setModalConsumo={onClick} number={number} id={id} service={service}/>
             </Modal>
         </View>
     );
@@ -48,14 +54,14 @@ const styles = StyleSheet.create({
     card:{
         flex:1,
         alignItems:'center',
-        justifyContent:'center',
+        // justifyContent:'center',
         width:'100%',
-        marginVertical: 40,
+        // marginVertical: 40,
         borderWidth: 2,
         borderStyle: 'solid',
         borderRadius: 15,
         borderColor: '#4923F5',
-        marginTop: 70
+        // marginTop: 60
     },
     headerDevice:{
         width: '100%',
